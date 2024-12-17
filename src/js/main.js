@@ -485,6 +485,8 @@ function makeRotatable(element) {
 }
 
 // JavaScript to update clock hands and numbers
+let currentShape = "circle";  // Default shape is circle
+let clockFace = document.querySelector(".clock-face");
 
 function updateClock() {
     const hourHand = document.querySelector('.hour-hand');
@@ -509,16 +511,38 @@ function updateClock() {
 // Function to create clock numbers
 function createClockNumbers() {
     const clockFace = document.querySelector('.clock-face');
-    for (let i = 1; i <= 12; i++) {
+    const numCount = 12;  // Total numbers in the clock (1 to 12)
+    const clockDiameter = 150; // Diameter for circle and general positioning reference
+
+    // Clear existing numbers
+    document.querySelectorAll('.clock-number').forEach(num => num.remove());
+
+    for (let i = 1; i <= numCount; i++) {
         const clockNumber = document.createElement('div');
         clockNumber.classList.add('clock-number');
         clockNumber.textContent = i;
 
-        // Calculate the angle and position of each number
-        const angle = (i - 3) * 30; // 3 o'clock position is the starting point (0 degrees)
-        const radius = 40; // Distance from the center
-        const x = 50 + radius * Math.cos(angle * Math.PI / 180);
-        const y = 50 + radius * Math.sin(angle * Math.PI / 180);
+        let x, y;
+
+        if (currentShape === 'circle') {
+            // Circle shape: Positioning numbers along the circumference
+            const angle = (i - 3) * 30;  // 3 o'clock as 0 degrees
+            x = 50 + clockDiameter * Math.cos(angle * Math.PI / 180);
+            y = 50 + clockDiameter * Math.sin(angle * Math.PI / 180);
+        } else if (currentShape === 'square') {
+            // Square shape: Positioning numbers along the square's edges
+            const sideLength = 150;
+            const angle = (i - 3) * 30; // Adjusting angle for square
+            // Calculate position along the edges of the square
+            x = 50 + (sideLength / 2) * Math.cos(angle * Math.PI / 180);
+            y = 50 + (sideLength / 2) * Math.sin(angle * Math.PI / 180);
+        } else if (currentShape === 'custom') {
+            // Custom shape (border-radius adjusted): Positions based on the custom shape's corners and edges
+            const radius = 120;
+            const angle = (i - 3) * 30;
+            x = 50 + radius * Math.cos(angle * Math.PI / 180);
+            y = 50 + radius * Math.sin(angle * Math.PI / 180);
+        }
 
         clockNumber.style.left = `${x}%`;
         clockNumber.style.top = `${y}%`;
@@ -527,14 +551,22 @@ function createClockNumbers() {
     }
 }
 
+function changeClockShape(shape) {
+    currentShape = shape;
+    updateClockShape();
+    createClockNumbers();
+}
+
+function updateClockShape() {
+    clockFace.className = "clock-face " + currentShape + "-shape";
+    createClockNumbers(); // Recreate numbers based on the new shape
+}
+
+// Initialize clock numbers on page load
+createClockNumbers();
+
 // Update the clock every second
 setInterval(updateClock, 1000);
 
-// Initialize clock on page load
+// Initialize clock hands and numbers on page load
 updateClock();
-
-// Create the clock numbers on page load
-createClockNumbers();
-
-
-
