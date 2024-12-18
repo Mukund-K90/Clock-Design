@@ -453,12 +453,12 @@ function createClockNumbers() {
     let radius = Math.min(containerWidth, containerHeight) / 2 - 20;
 
     let centerX = containerWidth / 2.5;
-    let centerY = containerHeight / 2.5-2;
+    let centerY = containerHeight / 2.5;
     clockNumbers.forEach(number => number.remove());
     if (imageContainer.classList.contains('custom2-shape')) {
         radius -= 20;
-        centerX+=10;
-        centerY+=10;
+        centerX += 10;
+        centerY += 10;
     }
     for (let i = 1; i <= 12; i++) {
         const clockNumber = document.createElement('div');
@@ -476,6 +476,39 @@ function createClockNumbers() {
         clockFace.appendChild(clockNumber);
     }
 }
+
+function createPreviewClockNumbers() {
+    const previewClockFaces = document.querySelectorAll('.preview-clock-face'); // Select all clock faces
+
+    previewClockFaces.forEach(previewClockFace => {
+        // Remove existing clock numbers in each preview clock face
+        previewClockFace.innerHTML = '';
+
+        const containerWidth = 100;
+        const containerHeight = 100;
+
+        let radius = Math.min(containerWidth, containerHeight) / 2 - 10;
+        let centerX = containerWidth / 1.8;
+        let centerY = containerHeight / 2.2;
+
+        for (let i = 1; i <= 12; i++) {
+            const clockNumber = document.createElement('div');
+            clockNumber.classList.add('preview-clock-number');
+            clockNumber.textContent = i;
+
+            const angle = (i - 3) * 30;
+            const x = centerX + radius * Math.cos(angle * Math.PI / 180);
+            const y = centerY + radius * Math.sin(angle * Math.PI / 180);
+
+            clockNumber.style.position = 'absolute';
+            clockNumber.style.left = `${x - 10}px`;
+            clockNumber.style.top = `${y - 10}px`;
+
+            previewClockFace.appendChild(clockNumber);
+        }
+    });
+}
+
 
 
 document.querySelectorAll('.shape-btn').forEach(btn => {
@@ -508,5 +541,5 @@ updateClock();
 
 createClockNumbers();
 
-
+createPreviewClockNumbers();
 
