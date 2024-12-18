@@ -14,7 +14,6 @@ const backgroundUrls = [
 ];
 
 const imageContainer = document.querySelector('.image-container');
-console.log(imageContainer);
 
 const previewImage = document.getElementById('previewImage');
 const fileInput = document.getElementById('fileInput');
@@ -49,14 +48,18 @@ document.querySelectorAll('.shape-btn').forEach(btn => {
         document.querySelectorAll('.shape-btn').forEach(button => button.classList.remove('active'));
         this.classList.add('active');
         const shape = this.dataset.shape;
-        const imageContainer = document.querySelector('.image-container');
-
+        imageContainer.classList.remove(
+            'circle-shape', 'square-shape', 'oval-shape',
+            'rect-shape', 'potrait-shape',
+            'custom-shape', 'custom2-shape',
+            'custom3-shape', 'custom4-shape'
+        );
         imageContainer.classList.remove('circle-shape', 'square-shape', 'oval-shape', 'rect-shape', 'potrait-shape', 'custom-shape', 'custom2-shape', 'custom3-shape', 'custom4-shape');
 
         if (shape) {
             imageContainer.classList.add(`${shape}-shape`)
         }
-
+        createClockNumbers();
     });
 });
 
@@ -119,7 +122,6 @@ document.querySelectorAll('.size-btn').forEach(btn => {
     btn.addEventListener('click', function () {
         document.querySelectorAll('.size-btn').forEach(button => button.classList.remove('active'));
         this.classList.add('active');
-
         const ratio = this.dataset.ratio.split('/');
         const aspectWidth = ratio[0];
         const aspectHeight = ratio[1];
@@ -146,6 +148,8 @@ document.querySelectorAll('.size-btn').forEach(btn => {
             widthInd.innerText = `Width ${aspectWidth} inch (${aspectWidth * 2.54} cm)`;
             heightInd.innerText = `Height ${aspectHeight} inch (${aspectHeight * 2.54} cm)`;
         }
+        console.log("YAYA");
+
         document.querySelectorAll('.circle-shape', '.square-shape', '.oval-shape', '.rect-shape', '.potrait-shape', '.custom-shape', '.custom2-shape', '.custom3-shape', '.custom4-shape').forEach(shape => {
             if (shape.classList.contains('circle-shape')) {
                 console.log("square-shape");
@@ -417,7 +421,6 @@ function makeRotatable(element) {
     });
 }
 
-// JavaScript to update clock hands and numbers
 
 function updateClock() {
     const hourHand = document.querySelector('.hour-hand');
@@ -429,43 +432,80 @@ function updateClock() {
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
-    // Update hands
-    const hourDeg = (hours % 12) * 30 + (minutes / 2); // Each hour is 30 degrees + minute influence
-    const minuteDeg = minutes * 6; // Each minute is 6 degrees
-    const secondDeg = seconds * 6; // Each second is 6 degrees
+    const hourDeg = (hours % 12) * 30 + (minutes / 2);
+    const minuteDeg = minutes * 6;
+    const secondDeg = seconds * 6;
 
     hourHand.style.transform = `rotate(${hourDeg}deg)`;
     minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
     secondHand.style.transform = `rotate(${secondDeg}deg)`;
 }
 
-// Function to create clock numbers
 function createClockNumbers() {
+    const clockNumbers = document.querySelectorAll('.clock-number');
     const clockFace = document.querySelector('.clock-face');
+
+    clockNumbers.forEach(number => number.remove());
+
+    const containerWidth = imageContainer.offsetWidth;
+    const containerHeight = imageContainer.offsetHeight;
+
+    let radius = Math.min(containerWidth, containerHeight) / 2 - 20;
+
+    let centerX = containerWidth / 2.5;
+    let centerY = containerHeight / 2.5-2;
+    clockNumbers.forEach(number => number.remove());
+    if (imageContainer.classList.contains('custom2-shape')) {
+        radius -= 20;
+        centerX+=10;
+        centerY+=10;
+    }
     for (let i = 1; i <= 12; i++) {
         const clockNumber = document.createElement('div');
         clockNumber.classList.add('clock-number');
         clockNumber.textContent = i;
 
-        const angle = (i - 3) * 30; // 3 o'clock position is the starting point (0 degrees)
-        const radius = 45; // Distance from the center
-        const x = 47.5 + radius * Math.cos(angle * Math.PI / 180);
-        const y = 47.5 + radius * Math.sin(angle * Math.PI / 180);
+        const angle = (i - 3) * 30;
+        const x = centerX + radius * Math.cos(angle * Math.PI / 180);
+        const y = centerY + radius * Math.sin(angle * Math.PI / 180);
 
-        clockNumber.style.left = `${x}%`;
-        clockNumber.style.top = `${y}%`;
+        clockNumber.style.position = 'absolute';
+        clockNumber.style.left = `${x - 10}px`;
+        clockNumber.style.top = `${y - 10}px`;
 
         clockFace.appendChild(clockNumber);
     }
 }
 
-// Update the clock every second
+
+document.querySelectorAll('.shape-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        document.querySelectorAll('.shape-btn').forEach(button => button.classList.remove('active'));
+        this.classList.add('active');
+        const shape = this.dataset.shape;
+        const imageContainer = document.querySelector('.image-container');
+
+        imageContainer.classList.remove(
+            'circle-shape', 'square-shape', 'oval-shape',
+            'rect-shape', 'potrait-shape',
+            'custom-shape', 'custom2-shape',
+            'custom3-shape', 'custom4-shape'
+        );
+
+        if (shape) {
+            imageContainer.classList.add(`${shape}-shape`);
+        }
+
+        // Update only the clock numbers
+        createClockNumbers();
+    });
+});
+
+
 setInterval(updateClock, 1000);
 
-// Initialize clock on page load
 updateClock();
 
-// Create the clock numbers on page load
 createClockNumbers();
 
 
