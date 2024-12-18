@@ -60,12 +60,6 @@ document.querySelectorAll('.shape-btn').forEach(btn => {
     });
 });
 
-document.querySelectorAll('.color-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-        imageContainer.style.border = `${this.style.border}`;
-    });
-});
-
 imageContainer.addEventListener('dblclick', dragStart);
 imageContainer.addEventListener('mousemove', drag);
 document.addEventListener('mouseup', dragEnd);
@@ -119,21 +113,6 @@ let scale = 1;
 zoomRange.addEventListener('input', function () {
     scale = parseFloat(zoomRange.value);
     updateImagePosition();
-});
-
-
-const downloadBtn = document.getElementById('downloadBtn');
-
-downloadBtn.addEventListener('click', () => {
-    document.querySelectorAll('.resize-handle, .rotate-handle').forEach(handle => {
-        handle.style.display = 'none';
-    });
-    html2canvas(imageContainer, { backgroundColor: null }).then((canvas) => {
-        const link = document.createElement('a');
-        link.download = 'customized-image.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-    });
 });
 
 document.querySelectorAll('.size-btn').forEach(btn => {
@@ -304,53 +283,6 @@ function closeTextModal() {
     document.getElementById('textModal').style.display = 'none';
 }
 
-// document.getElementById('addTextModalBtn').addEventListener('click', function () {
-//     const text = document.getElementById('modalTextInput').value;
-//     const textColor = document.getElementById('textColor').value;
-//     const fontStyle = document.getElementById('fontStyleSelect').value;
-
-//     if (text.trim() !== '') {
-//         const textBox = document.createElement('div');
-//         textBox.id = 'textBox';
-//         textBox.innerText = text;
-//         textBox.style.position = 'absolute';
-//         textBox.style.fontFamily = fontStyle;
-//         textBox.style.color = textColor;
-//         textBox.style.fontSize = '24px';
-//         textBox.style.top = '50%';
-//         textBox.style.left = '50%';
-//         textBox.style.transform = 'translate(-50%, -50%)';
-//         textBox.style.cursor = "move";
-//         document.getElementById('imageContainer').appendChild(textBox);
-//         textBox.style.display = 'block';
-//         makeDraggable(textBox);
-//     }
-
-//     closeTextModal();
-// });
-
-// function makeDraggable(element) {
-//     let isDragging = false;
-//     let offsetX, offsetY;
-
-//     element.addEventListener('mousedown', function (e) {
-//         isDragging = true;
-//         offsetX = e.clientX - element.offsetLeft;
-//         offsetY = e.clientY - element.offsetTop;
-//     });
-
-//     document.addEventListener('mousemove', function (e) {
-//         if (isDragging) {
-//             element.style.left = e.clientX - offsetX + 'px';
-//             element.style.top = e.clientY - offsetY + 'px';
-//         }
-//     });
-
-//     document.addEventListener('mouseup', function () {
-//         isDragging = false;
-//     });
-// }
-
 document.getElementById('addTextModalBtn').addEventListener('click', function () {
     const text = document.getElementById('modalTextInput').value;
     const textColor = document.getElementById('textColor').value;
@@ -370,6 +302,7 @@ document.getElementById('addTextModalBtn').addEventListener('click', function ()
         textBox.style.transform = 'translate(-50%, -50%)';
         textBox.style.cursor = 'move';
         textBox.style.border = 'none';
+        textBox.style.zIndex = 0;
         document.getElementById('imageContainer').appendChild(textBox);
 
         makeDraggable(textBox);
