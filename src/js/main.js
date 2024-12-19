@@ -19,6 +19,14 @@ const fileInput = document.getElementById('fileInput');
 const widthInd = document.getElementById('width');
 const heightInd = document.getElementById('height');
 const zoomRange = document.getElementById('zoomRange');
+const removeBgBtn = document.getElementById('removeBgBtn');
+removeBgBtn.addEventListener('click', openBgModal);
+imageContainer.addEventListener('dblclick', dragStart);
+imageContainer.addEventListener('mousemove', drag);
+document.addEventListener('mouseup', dragEnd);
+const allShapeBtn = document.querySelectorAll('.shape-btn');
+
+const allSizeBtn = document.querySelectorAll('.size-btn');
 
 let isDragging = false;
 let currentX = 0;
@@ -47,7 +55,7 @@ fileInput.addEventListener('change', function (e) {
 
 document.querySelectorAll('.shape-btn').forEach(btn => {
     btn.addEventListener('click', function () {
-        document.querySelectorAll('.shape-btn').forEach(button => button.classList.remove('active'));
+        allShapeBtn.forEach(button => button.classList.remove('active'));
         this.classList.add('active');
         const shape = this.dataset.shape;
         imageContainer.classList.remove(
@@ -65,9 +73,6 @@ document.querySelectorAll('.shape-btn').forEach(btn => {
     });
 });
 
-imageContainer.addEventListener('dblclick', dragStart);
-imageContainer.addEventListener('mousemove', drag);
-document.addEventListener('mouseup', dragEnd);
 
 function dragStart(e) {
     if (!isDragging) {
@@ -119,7 +124,7 @@ zoomRange.addEventListener('input', function () {
 
 document.querySelectorAll('.size-btn').forEach(btn => {
     btn.addEventListener('click', function () {
-        document.querySelectorAll('.size-btn').forEach(button => button.classList.remove('active'));
+        allSizeBtn.forEach(button => button.classList.remove('active'));
         this.classList.add('active');
         const ratio = this.dataset.ratio.split('/');
         const aspectWidth = ratio[0];
@@ -130,10 +135,6 @@ document.querySelectorAll('.size-btn').forEach(btn => {
 
         const widthInd = document.getElementById('width');
         const heightInd = document.getElementById('height');
-
-        console.log(ratio);
-
-        console.log(aspectWidth, aspectHeight);
 
         if (aspectWidth === "default" && aspectHeight === "default") {
             imageContainer.style.width = '';
@@ -147,16 +148,12 @@ document.querySelectorAll('.size-btn').forEach(btn => {
             widthInd.innerText = `Width ${aspectWidth} inch (${aspectWidth * 2.54} cm)`;
             heightInd.innerText = `Height ${aspectHeight} inch (${aspectHeight * 2.54} cm)`;
         }
-        console.log("YAYA");
 
-        document.querySelectorAll('.circle-shape', '.square-shape', '.oval-shape', '.rect-shape', '.potrait-shape', '.custom-shape', '.custom2-shape', '.custom3-shape', '.custom4-shape').forEach(shape => {
+        document.querySelectorAll('.circle-shape', '.square-shape', '.custom-shape', '.custom2-shape', '.custom3-shape', '.custom4-shape').forEach(shape => {
             if (shape.classList.contains('circle-shape')) {
-                console.log("square-shape");
-
                 shape.style.width = `${Math.round(height)}px`;
                 shape.style.height = `${Math.round(height)}px`;
             } else if (shape.classList.contains('square-shape')) {
-                console.log("square-shape");
 
                 shape.style.width = `${Math.round(width)}px`;
                 shape.style.height = `${Math.round(width)}px`;
@@ -169,35 +166,8 @@ document.querySelectorAll('.size-btn').forEach(btn => {
             }
         });
 
-        if ((aspectWidth == 11 && aspectHeight == 11) || (aspectWidth == 16 && aspectHeight == 16)) {
-            document.querySelectorAll('.shape-btn').forEach(button => {
-                if (button.classList.contains('oval') || button.classList.contains('potrait')) {
-                    button.style.display = 'none';
-                } else {
-                    button.style.display = 'inline-block';
-                }
-            });
-        }
-        else if (aspectWidth === "default" && aspectHeight === "default") {
-            document.querySelectorAll('.shape-btn').forEach(button => {
-                button.style.display = 'inline-block';
-            });
-        }
-        else {
-            document.querySelectorAll('.shape-btn').forEach(button => {
-                if (button.classList.contains('potrait') || button.classList.contains('rect') || button.classList.contains('circle') || button.classList.contains('custom3') || button.classList.contains('custom4') || button.classList.contains('custom5')) {
-                    button.style.display = 'none';
-                }
-                else {
-                    button.style.display = 'inline-block';
-                }
-            });
-        }
     });
 });
-
-const removeBgBtn = document.getElementById('removeBgBtn');
-removeBgBtn.addEventListener('click', openBgModal);
 
 function openBgModal() {
     const bgGallery = document.getElementById('bgGallery');
@@ -303,7 +273,7 @@ document.getElementById('addTextModalBtn').addEventListener('click', function ()
         textBox.style.transform = 'translate(-50%, -50%)';
         textBox.style.cursor = 'move';
         textBox.style.border = 'none';
-        textBox.style.zIndex = '1'; // Lower z-index for text
+        textBox.style.zIndex = '1';
         document.querySelector('.analog-clock').appendChild(textBox);
 
         makeDraggable(textBox);
@@ -417,7 +387,6 @@ function makeRotatable(element) {
         document.addEventListener('mouseup', stopRotating);
     });
 }
-
 
 function updateClock() {
     const hourHand = document.querySelector('.hour-hand');
