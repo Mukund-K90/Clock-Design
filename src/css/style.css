@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Londrina+Shadow&family=Lora:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Rampart+One&family=Wendy+One&display=swap');
+
 body {
     user-select: none;
 }
@@ -292,7 +294,8 @@ body {
     height: 100%;
     line-height: 30px;
     font-weight: bold;
-    color: #f0f0f0;
+    color: white;
+    font-family: "Londrina Shadow", serif;
     transform-origin: center;
     transition: all 0.3s ease;
 }
@@ -368,11 +371,10 @@ body {
 }
 
 .style-clock {
-    width: 100px;
-    height: 100px;
-    border: 2px solid #000;
-    border-radius: 50%;
+    width: 130px;
+    height: 130px;
     position: relative;
+    background: #888;
 }
 
 .clock-row {
@@ -383,27 +385,32 @@ body {
     align-items: center;
 }
 
-.clock-style{
-    display: flex;
-    align-items: center;
-}
 
 .style-clock.small:nth-child(1) .preview-clock-face .preview-clock-number {
-    color: black;
-    font-family: 'Arial', sans-serif;
+    color: white;
+    font-family: "Londrina Shadow", serif;
+    font-weight: bold;
 }
 
 .style-clock.small:nth-child(2) .preview-clock-face .preview-clock-number {
     color: black;
-    font-family: 'Courier New', monospace;
+    font-family: "Londrina Shadow", serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
 }
 
 .style-clock.small:nth-child(3) .preview-clock-face .preview-clock-number {
-    color: green;
-    font-family: 'Georgia', serif;
+    color: white;
+    font-family: 'Nunito', serif;
 }
 
 .style-clock.small:nth-child(4) .preview-clock-face .preview-clock-number {
-    color: purple;
-    font-family: 'Verdana', sans-serif;
+    color: white;
+    font-family: 'Wendy One', sans-serif;
+}
+
+.style-clock.active {
+    border: 2px dashed #000;
+    transform: scale(1);
 }

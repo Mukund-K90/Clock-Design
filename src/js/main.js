@@ -441,7 +441,7 @@ function updateClock() {
     secondHand.style.transform = `rotate(${secondDeg}deg)`;
 }
 
-function createClockNumbers() {
+function createClockNumbers(type) {
     const clockNumbers = document.querySelectorAll('.clock-number');
     const clockFace = document.querySelector('.clock-face');
 
@@ -451,9 +451,11 @@ function createClockNumbers() {
     const containerHeight = imageContainer.offsetHeight;
 
     let radius = Math.min(containerWidth, containerHeight) / 2 - 20;
-
     let centerX = containerWidth / 2.5;
     let centerY = containerHeight / 2.5;
+
+    const limitedNumbers = [12, 3, 6, 9];
+    const useLimitedNumbers = type || false;
     clockNumbers.forEach(number => number.remove());
     if (imageContainer.classList.contains('custom2-shape')) {
         radius -= 20;
@@ -461,6 +463,10 @@ function createClockNumbers() {
         centerY += 10;
     }
     for (let i = 1; i <= 12; i++) {
+        if (useLimitedNumbers && !limitedNumbers.includes(i)) {
+            continue;
+        }
+
         const clockNumber = document.createElement('div');
         clockNumber.classList.add('clock-number');
         clockNumber.textContent = i;
@@ -477,21 +483,25 @@ function createClockNumbers() {
     }
 }
 
+
 function createPreviewClockNumbers() {
     const previewClockFaces = document.querySelectorAll('.preview-clock-face'); // Select all clock faces
 
-    previewClockFaces.forEach(previewClockFace => {
-        // Remove existing clock numbers in each preview clock face
+    previewClockFaces.forEach((previewClockFace, index) => {
         previewClockFace.innerHTML = '';
 
-        const containerWidth = 100;
-        const containerHeight = 100;
+        const containerWidth = 130;
+        const containerHeight = 130;
 
-        let radius = Math.min(containerWidth, containerHeight) / 2 - 10;
+        let radius = Math.min(containerWidth, containerHeight) / 2 - 7;
         let centerX = containerWidth / 1.8;
         let centerY = containerHeight / 2.2;
 
         for (let i = 1; i <= 12; i++) {
+            if (index === previewClockFaces.length - 1 && ![12, 3, 6, 9].includes(i)) {
+                continue;
+            }
+
             const clockNumber = document.createElement('div');
             clockNumber.classList.add('preview-clock-number');
             clockNumber.textContent = i;
@@ -509,32 +519,6 @@ function createPreviewClockNumbers() {
     });
 }
 
-
-
-document.querySelectorAll('.shape-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-        document.querySelectorAll('.shape-btn').forEach(button => button.classList.remove('active'));
-        this.classList.add('active');
-        const shape = this.dataset.shape;
-        const imageContainer = document.querySelector('.image-container');
-
-        imageContainer.classList.remove(
-            'circle-shape', 'square-shape', 'oval-shape',
-            'rect-shape', 'potrait-shape',
-            'custom-shape', 'custom2-shape',
-            'custom3-shape', 'custom4-shape'
-        );
-
-        if (shape) {
-            imageContainer.classList.add(`${shape}-shape`);
-        }
-
-        // Update only the clock numbers
-        createClockNumbers();
-    });
-});
-
-
 setInterval(updateClock, 1000);
 
 updateClock();
@@ -542,4 +526,33 @@ updateClock();
 createClockNumbers();
 
 createPreviewClockNumbers();
+
+function activateClock(selectedClock, type) {
+    createClockNumbers(type);
+
+    const allClocks = document.querySelectorAll('.style-clock');
+
+    allClocks.forEach(clock => clock.classList.remove('active'));
+
+    selectedClock.classList.add('active');
+
+    const index = Array.from(allClocks).indexOf(selectedClock);
+
+    const fontStyles = [
+        { color: "white", fontFamily: "Londrina Shadow", fontWeight: "bold" },
+        { color: "black", fontFamily: "Londrina Shadow", fontWeight: "bold" },
+        { color: "white", fontFamily: "Nunito", fontWeight: "normal" },
+        { color: "white", fontFamily: "Wendy One", fontWeight: "normal" }
+    ];
+
+    const mainClockNumbers = document.querySelectorAll('.clock-number');
+
+    if (fontStyles[index]) {
+        mainClockNumbers.forEach(number => {
+            number.style.color = fontStyles[index].color;
+            number.style.fontFamily = fontStyles[index].fontFamily;
+            number.style.fontWeight = fontStyles[index].fontWeight;
+        });
+    }
+}
 
