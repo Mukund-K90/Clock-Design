@@ -295,21 +295,21 @@ document.getElementById('addTextModalBtn').addEventListener('click', function ()
     const fontStyle = document.getElementById('fontStyleSelect').value;
 
     if (text.trim() !== '') {
-            const textBox = document.createElement('div');
-            textBox.className = 'text-box';
-            textBox.innerText = text;
+        const textBox = document.createElement('div');
+        textBox.className = 'text-box';
+        textBox.innerText = text;
 
-            textBox.style.position = 'absolute';
-            textBox.style.fontFamily = fontStyle;
-            textBox.style.color = textColor;
-            textBox.style.fontSize = '24px';
-            textBox.style.top = '50%';
-            textBox.style.left = '50%';
-            textBox.style.transform = 'translate(-50%, -50%)';
-            textBox.style.cursor = 'move';
-            textBox.style.border = 'none';
-            textBox.style.zIndex = '1'; // Lower z-index for text
-            document.querySelector('.analog-clock').appendChild(textBox);
+        textBox.style.position = 'absolute';
+        textBox.style.fontFamily = fontStyle;
+        textBox.style.color = textColor;
+        textBox.style.fontSize = '24px';
+        textBox.style.top = '50%';
+        textBox.style.left = '50%';
+        textBox.style.transform = 'translate(-50%, -50%)';
+        textBox.style.cursor = 'move';
+        textBox.style.border = 'none';
+        textBox.style.zIndex = '1'; // Lower z-index for text
+        document.querySelector('.analog-clock').appendChild(textBox);
 
         makeDraggable(textBox);
         makeResizable(textBox);
@@ -454,10 +454,12 @@ function createClockNumbers(type) {
 
     let radius = Math.min(containerWidth, containerHeight) / 2 - 20;
     let centerX = containerWidth / 2.5;
-    let centerY = containerHeight / 2.5;
+    let centerY = containerHeight / 2.6;
 
     const limitedNumbers = [12, 3, 6, 9];
-    const useLimitedNumbers = type || false;
+    const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+    const useLimitedNumbers = type;
+
     clockNumbers.forEach(number => number.remove());
     if (imageContainer.classList.contains('custom2-shape')) {
         radius -= 20;
@@ -465,13 +467,18 @@ function createClockNumbers(type) {
         centerY += 10;
     }
     for (let i = 1; i <= 12; i++) {
-        if (useLimitedNumbers && !limitedNumbers.includes(i)) {
-            continue;
-        }
-
         const clockNumber = document.createElement('div');
         clockNumber.classList.add('clock-number');
-        clockNumber.textContent = i;
+
+        if (useLimitedNumbers === "limited" && !limitedNumbers.includes(i)) {
+            continue;
+        }
+        if (useLimitedNumbers === "roman" && !romanNumerals.includes(i - 1)) {
+            clockNumber.textContent = romanNumerals[i - 1];
+        }
+        else {
+            clockNumber.textContent = i;
+        }
 
         const angle = (i - 3) * 30;
         const x = centerX + radius * Math.cos(angle * Math.PI / 180);
@@ -499,14 +506,25 @@ function createPreviewClockNumbers() {
         let centerX = containerWidth / 1.8;
         let centerY = containerHeight / 2.2;
 
-        for (let i = 1; i <= 12; i++) {
-            if (index === previewClockFaces.length - 1 && ![12, 3, 6, 9].includes(i)) {
-                continue;
-            }
+        const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+        const limitedNumbers = [12, 3, 6, 9];
 
+        for (let i = 1; i <= 12; i++) {
             const clockNumber = document.createElement('div');
             clockNumber.classList.add('preview-clock-number');
-            clockNumber.textContent = i;
+
+            if (index === 3 || index === 4) {
+                clockNumber.textContent = romanNumerals[i - 1];
+            }
+
+            else if (index === 5) {
+                if (!limitedNumbers.includes(i)) continue;
+                clockNumber.textContent = i;
+            }
+
+            else {
+                clockNumber.textContent = i;
+            }
 
             const angle = (i - 3) * 30;
             const x = centerX + radius * Math.cos(angle * Math.PI / 180);
@@ -520,6 +538,7 @@ function createPreviewClockNumbers() {
         }
     });
 }
+
 
 setInterval(updateClock, 1000);
 
@@ -541,9 +560,11 @@ function activateClock(selectedClock, type) {
     const index = Array.from(allClocks).indexOf(selectedClock);
 
     const fontStyles = [
+        { color: "white", fontFamily: "Audiowide", fontWeight: "bold" },
         { color: "white", fontFamily: "Londrina Shadow", fontWeight: "bold" },
         { color: "black", fontFamily: "Londrina Shadow", fontWeight: "bold" },
-        { color: "white", fontFamily: "Nunito", fontWeight: "normal" },
+        { color: "black", fontFamily: "Arial", fontWeight: "normal" },
+        { color: "white", fontFamily: "Arial", fontWeight: "normal" },
         { color: "white", fontFamily: "Wendy One", fontWeight: "normal" }
     ];
 
