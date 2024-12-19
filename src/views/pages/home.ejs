@@ -20,7 +20,7 @@
             <div class="size-indicator height-indicator" id="height">Height 9 inch (22.86 cm)</div>
             <div class="image-container" id="imageContainer">
                 <img class="preview-image" id="previewImage"
-                    src="https://images.unsplash.com/photo-1733287733098-11492d9920f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                    src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=1779&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
                 <div class="analog-clock">
                     <div class="clock-face">
                         <div class="clock-center"></div>
@@ -72,19 +72,22 @@
     </div>
 
     <!-- ===TEXT MODAL=== -->
+
     <div id="textModal"
         style="display:none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5);">
         <div
             style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px;">
             <h3>Customize Text</h3>
             <label for="modalTextInput">Enter Text:</label>
-            <input type="text" id="modalTextInput" placeholder="Enter text" style="width: 100%; margin-bottom: 10px;">
+            <input type="text" id="modalTextInput" placeholder="Enter text" style="width: 100%; margin-bottom: 10px;"
+                oninput="updatePreview()">
 
             <label for="textColor">Text Color:</label>
-            <input type="color" id="textColor" value="#000000" style="width: 100%; margin-bottom: 10px;">
+            <input type="color" id="textColor" value="#000000" style="width: 100%; margin-bottom: 10px;"
+                oninput="updatePreview()">
 
-            <label for="fontStyleSelect">Font Style:</label>
-            <select id="fontStyleSelect" style="width: 100%; margin-bottom: 10px;">
+            <label for="fontStyleSelect">Select Font Style:</label>
+            <select id="fontStyleSelect" style="width: 100%; margin-bottom: 10px;" onchange="changeFontFamily()">
                 <option value="Arial">Arial</option>
                 <option value="Times New Roman">Times New Roman</option>
                 <option value="Courier New">Courier New</option>

@@ -14,13 +14,11 @@ const backgroundUrls = [
 ];
 
 const imageContainer = document.querySelector('.image-container');
-
 const previewImage = document.getElementById('previewImage');
 const fileInput = document.getElementById('fileInput');
 const widthInd = document.getElementById('width');
 const heightInd = document.getElementById('height');
 const zoomRange = document.getElementById('zoomRange');
-
 
 let isDragging = false;
 let currentX = 0;
@@ -114,7 +112,6 @@ function updateImagePosition() {
     previewImage.style.transform = `translate(${currentX}px, ${currentY}px) scale(${scale})`;
 }
 
-
 zoomRange.addEventListener('input', function () {
     scale = parseFloat(zoomRange.value);
     updateImagePosition();
@@ -199,7 +196,6 @@ document.querySelectorAll('.size-btn').forEach(btn => {
     });
 });
 
-
 const removeBgBtn = document.getElementById('removeBgBtn');
 removeBgBtn.addEventListener('click', openBgModal);
 
@@ -279,7 +275,6 @@ async function changeBackgroundAPI(backgroundUrl, originalImageUrl) {
     };
     reader.readAsDataURL(imageBlob);
 }
-
 
 document.getElementById('addTextBtn').addEventListener('click', function () {
     document.getElementById('textModal').style.display = 'block';
@@ -492,9 +487,8 @@ function createClockNumbers(type) {
     }
 }
 
-
 function createPreviewClockNumbers() {
-    const previewClockFaces = document.querySelectorAll('.preview-clock-face'); // Select all clock faces
+    const previewClockFaces = document.querySelectorAll('.preview-clock-face');
 
     previewClockFaces.forEach((previewClockFace, index) => {
         previewClockFace.innerHTML = '';
@@ -539,7 +533,6 @@ function createPreviewClockNumbers() {
     });
 }
 
-
 setInterval(updateClock, 1000);
 
 updateClock();
@@ -579,3 +572,20 @@ function activateClock(selectedClock, type) {
     }
 }
 
+function updatePreview() {
+    const text = document.getElementById('modalTextInput').value || 'Preview Text';
+    const color = document.getElementById('textColor').value;
+
+    document.querySelectorAll('option').forEach(option => {
+        const font = option.value;
+        option.style.fontFamily = font;
+        option.style.color = color;
+        option.textContent = `${text}`;
+    });
+}
+
+function changeFontFamily() {
+    const selectedFont = document.getElementById('fontStyleSelect').value;
+    const textInput = document.getElementById('fontStyleSelect');
+    textInput.style.fontFamily = selectedFont;
+}

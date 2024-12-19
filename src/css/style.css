@@ -321,7 +321,7 @@ body {
 
 .minute-hand {
     width: 4px;
-    height: 35%;
+    height: 40%;    
     background: linear-gradient(135deg, #fff, #333);
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
