@@ -19,6 +19,7 @@ const previewImage = document.getElementById('previewImage');
 const fileInput = document.getElementById('fileInput');
 const widthInd = document.getElementById('width');
 const heightInd = document.getElementById('height');
+const zoomRange = document.getElementById('zoomRange');
 
 
 let isDragging = false;
@@ -28,6 +29,8 @@ let initialX;
 let initialY;
 let xOffset = 0;
 let yOffset = 0;
+let scale = 1;
+
 
 fileInput.addEventListener('change', function (e) {
     const file = e.target.files[0];
@@ -39,8 +42,9 @@ fileInput.addEventListener('change', function (e) {
             previewImage.style.transform = 'translate(0px, 0px) scale(1)';
         };
         reader.readAsDataURL(file);
-        document.getElementById('downloadBtn').style.display = "block";
+        zoomRange.value = 1;
     }
+
 });
 
 document.querySelectorAll('.shape-btn').forEach(btn => {
@@ -110,8 +114,6 @@ function updateImagePosition() {
     previewImage.style.transform = `translate(${currentX}px, ${currentY}px) scale(${scale})`;
 }
 
-const zoomRange = document.getElementById('zoomRange');
-let scale = 1;
 
 zoomRange.addEventListener('input', function () {
     scale = parseFloat(zoomRange.value);

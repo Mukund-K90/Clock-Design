@@ -232,12 +232,6 @@ body {
     border: 1px solid #2F4858;
 }
 
-.text-box {
-    display: inline-block;
-    width: auto;
-    height: auto;
-    padding: 10px;
-}
 
 .text-box {
     position: absolute;
@@ -289,7 +283,7 @@ body {
 /* Clock Numbers */
 .clock-number {
     position: absolute;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     width: 100%;
     height: 100%;
     line-height: 30px;
@@ -305,16 +299,17 @@ body {
 .clock-hand {
     position: absolute;
     bottom: 50%;
-    left: 50%;
+    left: 49.5%;
     transform-origin: bottom;
     background: #000;
     transition: transform 0.1s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+    z-index: 1;
 }
 
 .hour-hand {
     width: 6px;
     height: 30%;
-    background: linear-gradient(135deg, #333, #555);
+    background: linear-gradient(135deg, #fff, #333);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
     z-index: 1;
@@ -323,7 +318,7 @@ body {
 .minute-hand {
     width: 4px;
     height: 35%;
-    background: linear-gradient(135deg, #666, #888);
+    background: linear-gradient(135deg, #fff, #333);
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
     z-index: 1;
@@ -332,7 +327,7 @@ body {
 .second-hand {
     width: 2px;
     height: 45%;
-    background: #f00;
+    background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
     z-index: 1;
@@ -345,10 +340,11 @@ body {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #e11414;
+    background: linear-gradient(135deg, #CDA26F, #745C3E);
     z-index: 2;
     transform: translate(-50%, -50%);
 }
+
 
 .preview-clock-face {
     position: relative;
@@ -402,7 +398,8 @@ body {
 
 .style-clock.small:nth-child(3) .preview-clock-face .preview-clock-number {
     color: white;
-    font-family: 'Nunito', serif;
+    font-family: 'Oswald', serif;
+    font-weight: bold;
 }
 
 .style-clock.small:nth-child(4) .preview-clock-face .preview-clock-number {
