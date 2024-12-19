@@ -7,7 +7,7 @@ const multer = require('multer');
 const upload = multer();
 const dotenv = require('dotenv');
 dotenv.config();
-const key = process.env.RBG_KEY || "6Lu6WfjPB2PVE7rw3tu3JaR2";
+const key = process.env.RBG_KEY || "Yxi6UAq73KkwkxPSCTJyssS7";
 
 app.set("view engine", 'ejs');
 app.set('view engine', 'ejs');

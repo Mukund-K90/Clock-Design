@@ -295,21 +295,21 @@ document.getElementById('addTextModalBtn').addEventListener('click', function ()
     const fontStyle = document.getElementById('fontStyleSelect').value;
 
     if (text.trim() !== '') {
-        const textBox = document.createElement('div');
-        textBox.className = 'text-box';
-        textBox.innerText = text;
+            const textBox = document.createElement('div');
+            textBox.className = 'text-box';
+            textBox.innerText = text;
 
-        textBox.style.position = 'absolute';
-        textBox.style.fontFamily = fontStyle;
-        textBox.style.color = textColor;
-        textBox.style.fontSize = '24px';
-        textBox.style.top = '50%';
-        textBox.style.left = '50%';
-        textBox.style.transform = 'translate(-50%, -50%)';
-        textBox.style.cursor = 'move';
-        textBox.style.border = 'none';
-        textBox.style.zIndex = 0;
-        document.getElementById('imageContainer').appendChild(textBox);
+            textBox.style.position = 'absolute';
+            textBox.style.fontFamily = fontStyle;
+            textBox.style.color = textColor;
+            textBox.style.fontSize = '24px';
+            textBox.style.top = '50%';
+            textBox.style.left = '50%';
+            textBox.style.transform = 'translate(-50%, -50%)';
+            textBox.style.cursor = 'move';
+            textBox.style.border = 'none';
+            textBox.style.zIndex = '1'; // Lower z-index for text
+            document.querySelector('.analog-clock').appendChild(textBox);
 
         makeDraggable(textBox);
         makeResizable(textBox);
