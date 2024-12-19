@@ -502,7 +502,7 @@ function createPreviewClockNumbers() {
         const containerWidth = 130;
         const containerHeight = 130;
 
-        let radius = Math.min(containerWidth, containerHeight) / 2 - 7;
+        let radius = Math.min(containerWidth, containerHeight) / 2 - 8;
         let centerX = containerWidth / 1.8;
         let centerY = containerHeight / 2.2;
 
