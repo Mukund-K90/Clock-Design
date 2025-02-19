@@ -546,9 +546,6 @@ function updatePreview() {
     const color = document.getElementById('textColor').value;
 
     document.querySelectorAll('option').forEach(option => {
-        const font = option.value;
-        option.style.fontFamily = font;
-        option.style.color = color;
         option.textContent = `${text}`;
     });
 }
