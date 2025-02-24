@@ -37,7 +37,6 @@ let xOffset = 0;
 let yOffset = 0;
 let scale = 1;
 
-
 fileInput.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (file) {
@@ -148,7 +147,7 @@ document.querySelectorAll('.size-btn').forEach(btn => {
             widthInd.innerText = `Width ${aspectWidth} inch (${aspectWidth * 2.54} cm)`;
             heightInd.innerText = `Height ${aspectHeight} inch (${aspectHeight * 2.54} cm)`;
         }
-
+        createClockNumbers();
         document.querySelectorAll('.circle-shape', '.square-shape', '.custom-shape', '.custom2-shape', '.custom3-shape', '.custom4-shape').forEach(shape => {
             if (shape.classList.contains('circle-shape')) {
                 shape.style.width = `${Math.round(height)}px`;
@@ -335,13 +334,18 @@ function makeResizable(element) {
 
     resizeHandle.addEventListener('mousedown', function (e) {
         e.stopPropagation();
-        const initialWidth = element.offsetWidth;
+        const initialFontSize = parseFloat(window.getComputedStyle(element).fontSize);
         const initialMouseX = e.clientX;
 
         function resize(e) {
-            const newSize = initialWidth + (e.clientX - initialMouseX);
-            element.style.fontSize = newSize + 'px';
+            const scaleFactor = 0.2;
+            const newSize = initialFontSize + (e.clientX - initialMouseX) * scaleFactor;
+
+            if (newSize > 10) {
+                element.style.fontSize = newSize + 'px';
+            }
         }
+
         function stopResizing() {
             document.removeEventListener('mousemove', resize);
             document.removeEventListener('mouseup', stopResizing);
@@ -429,6 +433,10 @@ function createClockNumbers(type) {
         radius -= 20;
         centerX += 10;
         centerY += 10;
+    }
+    if (containerWidth == 500 && containerHeight == 450) {
+        centerX = containerWidth / 2.5;
+        centerY = containerHeight / 2.6;
     }
     for (let i = 1; i <= 12; i++) {
         const clockNumber = document.createElement('div');
@@ -525,9 +533,9 @@ function activateClock(selectedClock, type) {
         { color: "white", fontFamily: "Audiowide", fontWeight: "bold" },
         { color: "white", fontFamily: "Londrina Shadow", fontWeight: "bold" },
         { color: "black", fontFamily: "Londrina Shadow", fontWeight: "bold" },
-        { color: "black", fontFamily: "Arial", fontWeight: "normal" },
-        { color: "white", fontFamily: "Arial", fontWeight: "normal" },
-        { color: "white", fontFamily: "Wendy One", fontWeight: "normal" }
+        { color: "black", fontFamily: "Arial", fontWeight: "bold" },
+        { color: "white", fontFamily: "Arial", fontWeight: "bold" },
+        { color: "white", fontFamily: "Wendy One", fontWeight: "bold" }
     ];
 
     const mainClockNumbers = document.querySelectorAll('.clock-number');
